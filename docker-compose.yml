@@ -1,0 +1,38 @@
+services:
+  # ----------------------------------------
+  # 1. データベース (PostgreSQL)
+  # ----------------------------------------
+  db:
+    image: postgres:15
+    container_name: atochi-db
+    environment:
+      POSTGRES_USER: atochi_user
+      POSTGRES_PASSWORD: atochi_password
+      POSTGRES_DB: atochi_db
+      TZ: "Asia/Tokyo"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # ----------------------------------------
+  # 2. バックエンド (Go) - ※将来のフルDocker化用
+  # ----------------------------------------
+  # backend:
+  #   build: ./backend
+  #   ports:
+  #     - "8080:8080"
+  #   ...
+
+  # ----------------------------------------
+  # 3. フロントエンド (Next.js) - ※将来のフルDocker化用
+  # ----------------------------------------
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   ...
+
+volumes:
+  pgdata:
